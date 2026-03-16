@@ -1,0 +1,38 @@
+# Cadence
+xcelium.d/
+INCA_libs/
+*.history
+*.key
+*.log
+*.pb
+*.jou
+*.trn
+*.dsn
+
+# Waves
+waves.shm/
+*.shm
+*.vcd
+*.fsdb
+
+
+# Editor / OS
+.DS_Store
+.vscode/
+
+
+# Simulation outputs
+sim/out/
+sim/xcelium.d/
+sim/.simvision/
+sim/waves.shm/
+sim/xrun.history
+
+Generic Xcelium artifacts
+.simvision/
+xrun.history
+
+# macOS noise
+.DS_Store
+
+tb/
