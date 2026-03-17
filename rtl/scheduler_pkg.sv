@@ -1,4 +1,4 @@
-package qos_sched_pkg;
+package scheduler_pkg;
 
   parameter int unsigned NUM_REQ       = 4;
   parameter int unsigned REQ_W         = 32;
@@ -15,4 +15,4 @@ package qos_sched_pkg;
   typedef logic [AGE_W-1:0] age_t;
   typedef logic [FIFO_CNT_W-1:0] fifo_cnt_t;
 
-endpackage : qos_sched_pkg
+endpackage : scheduler_pkg

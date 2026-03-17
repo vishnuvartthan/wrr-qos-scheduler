@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module status_counters import qos_sched_pkg::*; #(
+module status_counters import scheduler_pkg::*; #(
   parameter int unsigned NUM_REQ    = 4,
   parameter int unsigned COUNTER_W  = 32,
   parameter int unsigned REQ_IDX_W  = (NUM_REQ <= 1) ? 1 : $clog2(NUM_REQ)

@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module age_tracker import qos_sched_pkg::*; #(
+module age_tracker import scheduler_pkg::*; #(
   parameter int unsigned NUM_REQ = 4,
   parameter int unsigned AGE_W   = 8
 ) (

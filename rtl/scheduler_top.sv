@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module qos_sched_top import qos_sched_pkg::*; #(
+module scheduler_top import scheduler_pkg::*; #(
   parameter int unsigned NUM_REQ       = 4,
   parameter int unsigned REQ_W         = 32,
   parameter int unsigned FIFO_DEPTH    = 4,
@@ -193,4 +193,4 @@ module qos_sched_top import qos_sched_pkg::*; #(
     .starve_hit_count_i  (starve_hit_count)
   );
 
-endmodule : qos_sched_top
+endmodule : scheduler_top

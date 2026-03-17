@@ -12,7 +12,7 @@ SystemVerilog RTL project for a 4-requester QoS scheduler implementing weighted 
 - Status counters for grants, stalls, and starvation-prevention events
 
 ## RTL Modules
-- `qos_sched_top`
+- `scheduler_top`
 - `scheduler_core`
 - `wrr_arbiter`
 - `age_tracker`
@@ -23,7 +23,7 @@ SystemVerilog RTL project for a 4-requester QoS scheduler implementing weighted 
 ## Verification
 - Unit testbenches for key RTL modules
 - Top-level integration testbench
-- SystemVerilog assertions in `sva/qos_sched_sva.sv`
+- SystemVerilog assertions in `sva/scheduler_sva.sv`
 
 ## Directory Structure
 - `rtl/` : synthesizable RTL

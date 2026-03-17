@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-module wrr_arbiter import qos_sched_pkg::*; #(
+module wrr_arbiter import scheduler_pkg::*; #(
   parameter int unsigned NUM_REQ   = 4,
   parameter int unsigned WEIGHT_W  = 4,
   parameter int unsigned REQ_IDX_W = (NUM_REQ <= 1) ? 1 : $clog2(NUM_REQ)

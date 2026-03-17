@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module csr_regs import qos_sched_pkg::*; #(
+module csr_regs import scheduler_pkg::*; #(
   parameter int unsigned NUM_REQ      = 4,
   parameter int unsigned WEIGHT_W     = 4,
   parameter int unsigned AGE_W        = 8,
@@ -20,14 +20,13 @@ module csr_regs import qos_sched_pkg::*; #(
   input  logic [NUM_REQ-1:0]           fifo_empty_i,
   input  logic [COUNTER_W-1:0]         grant_count_i [NUM_REQ],
   input  logic [COUNTER_W-1:0]         stall_count_i,
-  input  logic [COUNTER_W-1:0]         starve_hit_count_i
+  input  logic [COUNTER_W-1:0]         starve_hit_count_i,
 
   output logic [DATA_W-1:0]            csr_rdata_o,
   output logic                         csr_ready_o,
   output logic [WEIGHT_W-1:0]          weight_o [NUM_REQ],
-  output logic [AGE_W-1:0]             aging_threshold_o,
-
-);
+  output logic [AGE_W-1:0]             aging_threshold_o
+  );
 
   localparam logic [ADDR_W-1:0] ADDR_WEIGHT0      = 8'h00;
   localparam logic [ADDR_W-1:0] ADDR_WEIGHT1      = 8'h04;
