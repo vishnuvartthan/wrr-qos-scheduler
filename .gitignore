@@ -35,5 +35,7 @@ xrun.history
 # macOS noise
 .DS_Store
 
-tb/top
+ref/
 tb/common
+
+*.rpt

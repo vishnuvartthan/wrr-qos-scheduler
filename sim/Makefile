@@ -83,6 +83,8 @@ clean:
 	rm -rf $(OUTDIR)/$(TB_AGE)
 	rm -rf $(OUTDIR)/$(TB_WRR_ARB)
 	rm -rf $(OUTDIR)/$(TB_SCH_CORE)
+	rm -rf $(OUTDIR)/$(TB_STAT_CNT)
+	rm -rf $(OUTDIR)/$(TB_CSR_REGS)
 	rm -rf xrun.history
 	rm -rf xcelium.d
 	rm -rf .simvision
