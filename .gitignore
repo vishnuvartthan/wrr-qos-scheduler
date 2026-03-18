@@ -8,6 +8,9 @@ INCA_libs/
 *.jou
 *.trn
 *.dsn
+*.tstamp
+*.cmd
+*.sdf
 
 # Waves
 waves.shm/
@@ -35,7 +38,5 @@ xrun.history
 # macOS noise
 .DS_Store
 
-ref/
-tb/common
-
-*.rpt
+lib/
+synth/fv/
