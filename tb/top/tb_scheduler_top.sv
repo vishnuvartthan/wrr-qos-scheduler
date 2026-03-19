@@ -529,27 +529,18 @@ module tb_scheduler_top;
     fail_count = 0;
 
     reset_dut();
+
     test_smoke_single_port();
-
-    reset_dut();
     test_backpressure_hold();
-
-    reset_dut();
     test_wrr_ratio_basic();
-
-    reset_dut();
     test_aging_override_basic();
-
-    reset_dut();
     test_csr_counter_readback();
-
-    reset_dut();
     test_random_stress_parallel();
 
     repeat (20) @(posedge clk);
 
-    if (fail_count == 0) $display("[TB] PASS");
-    else $display("[TB] FAIL count=%0d", fail_count);
+    if (fail_count == 0) $display("[TB] PASSED");
+    else $display("[TB] FAILED, fail count=%0d", fail_count);
 
     $finish;
   end

@@ -135,8 +135,8 @@ module tb_req_fifo;
       drive_cycle(0, '0, 1, "redrain 1");
     end
 
-    if (errors == 0) $display("PASS: tb_req_fifo completed without errors");
-    else $fatal(1, "FAIL: tb_req_fifo completed with errors");
+    if (errors == 0) $display("tb_req_fifo PASSED");
+    else $fatal(1, "tb_req_fifo FAILED, %0d errors", errors );
 
     $finish;
   end

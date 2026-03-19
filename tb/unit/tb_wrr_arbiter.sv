@@ -289,7 +289,7 @@ module tb_wrr_arbiter;
     reset_dut();
     test_all_active_sanity();
 
-    $display("ALL WRR ARBITER TESTS PASSED");
+    $display("tb_wrr_arbiter PASSED");
     $finish;
   end
 

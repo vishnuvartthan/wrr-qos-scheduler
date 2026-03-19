@@ -1,7 +1,6 @@
 set_db init_lib_search_path <USER_LIB_PATH>
 set_db init_hdl_search_path <USER_HDL_PATH>
-
-read_libs read_libs <USER_STD_CELL_LIB>
+read_libs <USER_STD_CELL_LIB>
 
 read_hdl -sv {scheduler_pkg.sv req_fifo.sv age_tracker.sv wrr_arbiter.sv scheduler_core.sv csr_regs.sv status_counters.sv scheduler_top.sv }
 
@@ -11,6 +10,9 @@ read_sdc ../scripts/constraints.sdc
 syn_generic
 syn_map
 syn_opt
+
+file mkdir reports
+file mkdir outputs
 
 report_timing > reports/timing.rpt
 report_area > reports/area.rpt

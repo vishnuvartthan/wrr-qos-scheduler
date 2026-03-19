@@ -274,7 +274,7 @@ module tb_scheduler_core;
     if (pending_o      !== 4'b1010) $fatal(1, "pending_o mismatch");
     if (wrr_eligible_o !== 4'b1010) $fatal(1, "wrr_eligible_o mismatch");
 
-    $display("tb_scheduler_core: PASS");
+    $display("tb_scheduler_core PASSED");
     $finish;
   end
 
