@@ -163,7 +163,9 @@ SVA are bound at the top level and cover the main integration invariants:
 
 ## Synthesis and timing
 
-Synthesized with the provided SDC and synthesis script in `scripts/constraints.sdc` and `synth/synth.tcl`. The generated reports are under `synth/reports/`.
+Synthesized with the provided SDC and synthesis script in `scripts/constraints.sdc` and `synth/synth.tcl`. 
+
+The generated reports are under [`synth/reports`](https://github.com/vishnuvartthan/wrr-qos-scheduler/tree/main/synth/reports).
 
 Observed report highlights from the current run,
 
