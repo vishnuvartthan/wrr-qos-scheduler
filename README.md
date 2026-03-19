@@ -1,6 +1,6 @@
 # QoS Scheduler RTL
 
-SystemVerilog RTL for a 4 requester QoS scheduler on a shared memory or interconnect path. The block is framed as an AXI-like front-end scheduler rather than a full protocol implementation: multiple request sources feed per-port FIFOs, arbitration is weighted round robin, and an aging mechanism forces forward progress when low-priority traffic waits too long.
+Synthesizable, parameterized SystemVerilog RTL for a 4 requester QoS scheduler with a 32-bit request datapath on a shared memory or interconnect path. The block is framed as an AXI-like front-end scheduler rather than a full protocol implementation: multiple request sources feed per-port FIFOs, arbitration is weighted round robin, and an aging mechanism forces forward progress when low-priority traffic waits too long.
 
 This project was built around the kind of control-heavy block that often sits between request generators and a shared downstream resource such as an interconnect port, memory controller frontend, DMA path, or accelerator ingress queue.
 
@@ -48,9 +48,7 @@ cd synth
 genus -f ../scripts/synth.tcl
 ```
 
-The current TCL reads:
-
-It writes reports to:
+The current TCL writes reports to:
 
 * `synth/reports/timing.rpt`
 * `synth/reports/area.rpt`
@@ -181,41 +179,57 @@ The longest path is consistent with the structure of the design: register output
 
 One useful observation from the synthesized netlist is that the path is dominated by control logic depth rather than arithmetic. The path is mostly AOI/OAI/NAND/NOR style boolean logic and muxing, with roughly 25+ logic levels and no large arithmetic blocks. That lines up with the nature of the block: arbitration, selection, and handshake control.
 
+
+### Current Scope and boundaries
+This implementation is scoped as a QoS scheduler RTL block, not a full bus interconnect IP. It covers arbitration, aging-based forward progress, per-port buffering, backpressure-safe output control, and observability through CSRs and counters. It does not include burst-level protocol behavior, ID-based ordering rules, or response-path modeling. Verification is based on directed tests, random stress, and assertions, and the reported timing/area numbers come from synthesis rather than post-layout analysis.
+
+
 ## Repository layout
 
 ```text
-rtl/
-  age_tracker.sv
-  csr_regs.sv
-  req_fifo.sv
-  scheduler_core.sv
-  scheduler_pkg.sv
-  scheduler_top.sv
-  status_counters.sv
-  wrr_arbiter.sv
-tb/
-  top/tb_scheduler_top.sv
-  unit/
-      tb_age_tracker.sv
-      tb_csr_regs.sv
-      tb_req_fifo.sv
-      tb_scheduler_core.sv
-      tb_scheduler_pkg.sv
-      tb_scheduler_top.sv
-      tb_status_counters.sv
-      tb_wrr_arbiter.sv
-sva/
-  scheduler_bind.sv
-  scheduler_sva.sv
-scripts/
-  constraints.sdc
-  synth.tcl
-  waves.tcl
-sim/
-  files.f
-  Makefile
-  out/
-synth/
-  outputs/
-  reports/
+.
+├── rtl
+│   ├── age_tracker.sv
+│   ├── csr_regs.sv
+│   ├── req_fifo.sv
+│   ├── scheduler_core.sv
+│   ├── scheduler_pkg.sv
+│   ├── scheduler_top.sv
+│   ├── status_counters.sv
+│   └── wrr_arbiter.sv
+├── scripts
+│   ├── constraints.sdc
+│   ├── synth.tcl
+│   └── waves.tcl
+├── sim
+│   ├── files.f
+│   ├── Makefile
+│   └── out/
+├── sva
+│   ├── scheduler_bind.sv
+│   └── scheduler_sva.sv
+├── synth
+│   ├── outputs
+│   │   ├── delays.sdf
+│   │   ├── scheduler_netlist.v
+│   │   └── scheduler_sdc.sdc
+│   ├── reports
+│   │   ├── area.rpt
+│   │   ├── power.rpt
+│   │   ├── qor.rpt
+│   │   └── timing.rpt
+└── tb
+    ├── top
+    │   └── tb_scheduler_top.sv
+    └── unit
+        ├── tb_age_tracker.sv
+        ├── tb_csr_regs.sv
+        ├── tb_req_fifo.sv
+        ├── tb_scheduler_core.sv
+        ├── tb_status_counters.sv
+        └── tb_wrr_arbiter.sv
+
+
+
+
 ```
