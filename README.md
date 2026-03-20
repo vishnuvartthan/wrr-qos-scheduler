@@ -1,4 +1,4 @@
-# QoS Scheduler RTL
+# QoS Scheduler RTL for AXI-Like Memory Arbitration
 
 Synthesizable, parameterized SystemVerilog RTL for a 4 requester QoS scheduler with a 32-bit request datapath on a shared memory or interconnect path. The block is framed as an AXI-like front-end scheduler rather than a full protocol implementation: multiple request sources feed per-port FIFOs, arbitration is weighted round robin, and an aging mechanism forces forward progress when low-priority traffic waits too long.
 
