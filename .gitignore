@@ -11,6 +11,7 @@ INCA_libs/
 *.tstamp
 *.cmd
 *.sdf
+*.v
 
 # Waves
 waves.shm/
