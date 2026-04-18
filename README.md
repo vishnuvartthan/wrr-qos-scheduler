@@ -71,28 +71,4 @@ The design centers on a few points:
 6. FIFO pop happens only on a real output handshake.
 
 
-## Verification
-
-Verification was split between module level bringup and top level behavior checking.
-
-### Top level integration testbench
-
-- single port smoke traffic
-- backpressure hold behavior
-- WRR service under sustained contention
-- aging-triggered service for otherwise disadvantaged traffic
-- CSR counter readback
-- a small random stress run with concurrent traffic and output stalls
-
-### Assertions
-
-SVA are bound at the top level and cover the main integration invariants:
-- no FIFO pop without output handshake
-- at most one pop in a cycle
-- serve and pop consistency
-- pop source matches `out_src_idx`
-- held output remains stable during sustained backpressure
-- no unknowns on valid output
-
-The generated reports are under [`synth/reports`](https://github.com/vishnuvartthan/wrr-qos-scheduler/tree/main/synth/reports).
 
