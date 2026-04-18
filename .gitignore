@@ -1,4 +1,4 @@
-# Cadence
+
 xcelium.d/
 INCA_libs/
 *.history
@@ -13,14 +13,13 @@ INCA_libs/
 *.sdf
 *.v
 
-# Waves
+
 waves.shm/
 *.shm
 *.vcd
 *.fsdb
 
 
-# Editor / OS
 .DS_Store
 .vscode/
 
@@ -36,8 +35,6 @@ Generic Xcelium artifacts
 .simvision/
 xrun.history
 
-# macOS noise
-.DS_Store
 
 lib/
 synth/fv/
