@@ -1,6 +1,6 @@
-# QoS Scheduler RTL for Shared Memory System Arbitration
+# QoS Scheduler RTL for Shared Resource Arbitration
 
-Synthesizable, parameterized SystemVerilog RTL for a 4 requester QoS scheduler with a 32-bit request datapath on a shared memory or interconnect path. The block is framed as an AXI-like front-end scheduler rather than a full protocol implementation: multiple request sources feed per-port FIFOs, arbitration is weighted round robin, and an aging mechanism forces forward progress when low-priority traffic waits too long.
+Synthesizable, parameterized SystemVerilog RTL for a 4 requester QoS scheduler with a 32-bit request datapath on a shared memory or interconnect path. The block is framed as an AXI-like front-end scheduler rather than a full protocol implementation: multiple request sources feed per-requester FIFOs, arbitration is weighted round robin, and an aging mechanism forces forward progress when low-priority traffic waits too long.
 
 
 ## Running the project
@@ -46,20 +46,6 @@ cd synth
 genus -f ../scripts/synth.tcl
 ```
 
-The current TCL writes reports to:
-
-* `synth/reports/timing.rpt`
-* `synth/reports/area.rpt`
-* `synth/reports/power.rpt`
-* `synth/reports/qor.rpt`
-
-and outputs to:
-
-* `synth/outputs/scheduler_netlist.v`
-* `synth/outputs/scheduler_sdc.sdc`
-* `synth/outputs/delays.sdf`
-
-
 
 ## Architectural scope
 
@@ -74,41 +60,6 @@ The design centers on a few points:
 - **CSR programmability** for weights and aging threshold
 - **Status counters** for grants, stalls, and aging triggered service events
 
-This is intentionally a scheduler/control block, not a full AXI channel implementation. There is no burst decomposition, ID tracking, or out-of-order response handling in this version.
-
-## Placement in a larger system
-
-The intended context is an AXI-like memory subsystem or shared interconnect path where different traffic classes compete for service. A reasonable example is CPU, DMA, GPU, or accelerator traffic converging on one downstream port.
-
-The problem being addressed is simple: fixed priority is easy to build but can starve low priority requesters under sustained pressure. Pure round robin improves fairness but does not provide bandwidth weighting. This design uses weighted round robin for configurable service bias, then adds aging so long waiting traffic still makes progress.
-
-## Microarchitecture
-
-### RTL partition
-
-- `scheduler_top`  
-  Top level integration, external interfaces, and module wiring.
-
-- `scheduler_core`  
-  Selection control, aging override handling, output hold logic, and handshake driven pop/serve generation.
-
-- `wrr_arbiter`  
-  Weighted round robin grant selection among eligible requesters.
-
-- `age_tracker`  
-  Per request wait tracking and starvation eligibility generation.
-
-- `req_fifo`  
-  per requester FIFO used to decouple arrivals from arbitration.
-
-- `csr_regs`  
-  Weight and threshold configuration plus status/counter readback.
-
-- `status_counters`  
-  Grant, stall, and aging triggered service counters.
-
-- `scheduler_pkg`  
-  Shared parameters and types.
 
 ### Service flow
 
@@ -119,7 +70,6 @@ The problem being addressed is simple: fixed priority is easy to build but can s
 5. Once a request is presented at the output, it is held stable until downstream `ready` is asserted.
 6. FIFO pop happens only on a real output handshake.
 
-That last point matters. It keeps the design safe under downstream stalls and avoids dropping or reordering requests during backpressure.
 
 ## Verification
 
@@ -146,23 +96,3 @@ SVA are bound at the top level and cover the main integration invariants:
 
 The generated reports are under [`synth/reports`](https://github.com/vishnuvartthan/wrr-qos-scheduler/tree/main/synth/reports).
 
-Observed report highlights from the current run,
-
-- **Slack:** +4513.4 ps
-- **Datapath delay:** 4477 ps
-- **Critical path:** starts in `csr_regs` and ends at `out_data_o`
-- **Cell area:** 9431.334
-- **Leaf instance count:** 2582
-- **Sequential instances:** 842
-- **Combinational instances:** 1740
-
-The longest path is consistent with the structure of the design: register output from the CSR/config side, through control heavy arbitration and selection logic, to the scheduled output datapath.
-
-One useful observation from the synthesized netlist is that the path is dominated by control logic depth rather than arithmetic. The path is mostly AOI/OAI/NAND/NOR style boolean logic and muxing, with roughly 25+ logic levels and no large arithmetic blocks. That lines up with the nature of the block: arbitration, selection, and handshake control.
-
-
-
-
-
-
-```
